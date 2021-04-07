@@ -18,22 +18,23 @@ class _ChatRoomState extends State<ChatRoom> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream chatRoomStream;
   Widget chatRoomList() {
-    return StreamBuilder(
-      stream: chatRoomStream,
-      builder: (context, snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ListTile(snapshot.data.docs[index].data('chatroomid')
-                  // snapshot.data.docs[index].data['message']
-                      .toString()
-                      .replaceAll("_", "").replaceAll(Constants.myName,""),snapshot
-                      .data.docs[index].data['chatroomid']);
-                })
-            : Container(child: Text("a"),);
-      },
+    return Container(
+      child: StreamBuilder(
+        stream: chatRoomStream,
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  // shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ListTile(snapshot.data.docs[index].data()['chatroomid']
+                        .toString()
+                        .replaceAll("_", " ").replaceAll(Constants.myName," "),snapshot
+                        .data.docs[index].data()['chatroomid']);
+                  })
+              : Container();
+        },
+      ),
     );
   }
 
@@ -50,7 +51,7 @@ class _ChatRoomState extends State<ChatRoom> {
         chatRoomStream = val;
       });
     });
-    // setState(() {});
+    setState(() {});
   }
 
   @override
@@ -74,7 +75,7 @@ class _ChatRoomState extends State<ChatRoom> {
           ),
         ],
       ),
-      body: Container(child:chatRoomList()),
+      body: chatRoomList(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: () {

@@ -23,15 +23,19 @@ class DatabaseMethods {
     FirebaseFirestore.instance
         .collection('chatroom')
         .doc(chatroomid)
+        // .collection("chat")
         .set(chatRoomMap);
   }
 
-  addMessages(String chatroomid, messageMap) {
+Future<void> addMessage(String chatRoomId, chatMessageData){
+  // addMessages(String chatroomid, messageMap) {
     FirebaseFirestore.instance
         .collection('chatroom')
-        .doc(chatroomid)
-        .set(messageMap);
-  }
+        .doc(chatRoomId)
+        .collection("chat")
+        .add(chatMessageData);
+  // }
+}
 
   getMessages(String chatroomid) async {
     return await FirebaseFirestore.instance
@@ -44,7 +48,7 @@ class DatabaseMethods {
 
   getChatRooms(String username) async{
     return await FirebaseFirestore.instance
-        .collection("chatroom")
+        .collection('chatroom')
         .where("users", arrayContains: username)
         .snapshots();
   }

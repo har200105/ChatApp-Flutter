@@ -24,8 +24,8 @@ class _ChattingRoomState extends State<ChattingRoom> {
         return snapshot.hasData ? ListView.builder(
           itemCount: snapshot.data.docs.length,
           itemBuilder: (context,index){
-            return MessageTile(snapshot.data.docs[index].get('message'),
-            snapshot.data.docs[index].get('sendby')==Constants.myName);
+            return MessageTile(snapshot.data.docs[index].data()['message'],
+            snapshot.data.docs[index].data()['sendby']==Constants.myName);
           }
           ):Container();
       },
@@ -39,7 +39,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
       "sendby":Constants.myName,
       "time"  : DateTime.now().millisecondsSinceEpoch,
     };
-    databaseMethods.addMessages(widget.chatroomid,messageMap);
+    databaseMethods.addMessage(widget.chatroomid,messageMap);
     messageController.text="";
   }
   }
